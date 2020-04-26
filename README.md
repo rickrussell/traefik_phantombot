@@ -2,11 +2,9 @@
 ## Phantombot with Traefik frontend, with self-signed SSL certificates
 ---
 ### Create passwd for Traefik Dashboard and drop into `./traefik_users`
-**You'll need `htdigest` from `apache2-utils`**
-
-`cd traefik_phantombot`
-
-`htdigest -c traefik_users traefik admin`
+1. **You'll need `htdigest` from `apache2-utils`**
+2. `cd traefik_phantombot`
+3. `htdigest -c traefik_users traefik admin`
 
 ### Create Phantombot Environment File
 ```
