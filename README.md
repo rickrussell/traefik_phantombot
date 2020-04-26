@@ -16,5 +16,7 @@ PHANTOMBOT_CHANNEL=twitch_channel(if different from username)
 PHANTOMBOT_PANEL_USER=panel_user
 PHANTOMBOT_PANEL_PASSWD=panel_password
 ```
-I save mine to ~/.phantombot_env, `chmod 0600 ~/.phantombot_env` then create symbolic link:
-`ln -s ~/.phantombot_env /code/traefik_phantombot/.phantombot_env`
+Save to ~/.phantombot_env, then create symbolic link:
+1. `touch ~/.phantombot_env`
+2. `chmod 0600 ~/.phantombot_env`
+3. `ln -s ~/.phantombot_env /code/traefik_phantombot/.phantombot_env`
