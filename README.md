@@ -17,6 +17,6 @@ PHANTOMBOT_PANEL_USER=panel_user
 PHANTOMBOT_PANEL_PASSWD=panel_password
 ```
 Save to ~/.phantombot_env, then create symbolic link:
-1. `touch ~/.phantombot_env`
+1. `vi ~/.phantombot_env`
 2. `chmod 0600 ~/.phantombot_env`
 3. `ln -s ~/.phantombot_env /code/traefik_phantombot/.phantombot_env`
