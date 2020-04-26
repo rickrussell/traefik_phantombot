@@ -1,0 +1,70 @@
+version: "3.7"
+
+services:
+  traefik:
+    image: "traefik:v2.2"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.ssl.acme.tlschallenge=true"
+      - "--certificatesresolvers.ssl.acme.email=email@$MY_DOMAIN"
+      - "--certificatesresolvers.ssl.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik_secure.rule=Host(`traefik.$MY_DOMAIN`)"
+      - "traefik.http.routers.traefik_secure.entrypoints=websecure"
+      - "traefik.http.routers.traefik_secure.tls=true"
+      - "traefik.http.routers.traefik_secure.tls.certResolver=ssl"
+      - "traefik.http.routers.traefik_secure.service=api@internal"
+      - "traefik.http.routers.traefik_secure.middlewares=traefik-auth"
+      - "traefik.http.middlewares.traefik-auth.digestauth.usersfile=/traefik_users"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.$MY_DOMAIN`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.middlewares=https_redirect"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
+    volumes:
+      - "./traefik_users:/traefik_users"
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - outside
+    restart: always
+
+  phantombot:
+    container_name: phantombot-nightly
+    image: gmt2001/phantombot-nightly:latest
+    container_name: "phantombot"
+    hostname: "phantombot"
+    ports:
+      - "25000:25000"
+    networks:
+      - outside
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phantombot.rule=Host(`phantombot.$MY_DOMAIN`)"
+      - "traefik.http.routers.phantombot.tls.certresolver=ssl"
+      - "traefik.http.routers.phantombot.entrypoints=websecure"
+      - "traefik.http.services.phantombot.loadbalancer.server.port=25000" 
+    volumes:
+      - "/opt/phantombot/config"
+      - "/opt/PhantomBot/addons"
+      - "/opt/PhantomBot/config"
+      - "/opt/PhantomBot/dbbackup"
+      - "/opt/PhantomBot/logs"
+      - "/opt/PhantomBot/scripts/custom"
+      - "/opt/PhantomBot/scripts/discord/custom"
+      - "/opt/PhantomBot/scripts/lang/custom"
+    env_file:
+      - ./.phantombot_env
+
+networks:
+  outside:
+    external: true

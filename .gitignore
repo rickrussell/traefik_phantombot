@@ -1,0 +1,4 @@
+traefik_users
+letsencrypt/*
+phantombot/*
+.phantombot_env
