@@ -1,12 +1,12 @@
 # traefik_phantombot
-## Phantombot with Traefik frontend, with self-signed SSL certificates
+### Phantombot with Traefik frontend, with self-signed SSL certificates
 ---
-### Create passwd for Traefik Dashboard and drop into `./traefik_users`
+#### Create passwd for Traefik Dashboard (`./traefik_users`)
 **You'll need `htdigest` from `apache2-utils`**
 1. `cd traefik_phantombot`
 2. `htdigest -c traefik_users traefik admin`
 
-### Create Phantombot Environment File
+#### Create Phantombot Environment File
 ```
 MY_DOMAIN="mydomain.com"
 PHANTOMBOT_USER=twitch_username
