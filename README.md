@@ -8,13 +8,13 @@
 
 #### Create Phantombot Environment File
 ```
-MY_DOMAIN="mydomain.com"
+MY_DOMAIN=mydomain.com
 PHANTOMBOT_USER=twitch_username
-PHANTOMBOT_OAUTH_TOKEN=oauth:someoauthtokenhere
+PHANTOMBOT_OAUTH=oauth:someoauthtokenhere
 PHANTOMBOT_APIOAUTH=oauth:anotheroauthtokenhere
 PHANTOMBOT_CHANNEL=twitch_channel(if different from username)
-PHANTOMBOT_PANEL_USER=panel_user
-PHANTOMBOT_PANEL_PASSWD=panel_password
+PHANTOMBOT_PANELUSER=panel_user
+PHANTOMBOT_PANELPASSWORD=panel_password
 ```
 Save to ~/.phantombot_env, then create symbolic link:
 1. `vi ~/.phantombot_env`
