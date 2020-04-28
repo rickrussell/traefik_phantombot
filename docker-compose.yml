@@ -11,11 +11,14 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.ssl.acme.tlschallenge=true"
-      - "--certificatesresolvers.ssl.acme.email=email@$MY_DOMAIN"
+      - "--certificatesresolvers.ssl.acme.email=phantombot@$MY_DOMAIN"
       - "--certificatesresolvers.ssl.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - outside
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik_secure.rule=Host(`traefik.$MY_DOMAIN`)"
@@ -34,9 +37,8 @@ services:
       - "./traefik_users:/traefik_users"
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    networks:
-      - outside
-    restart: always
+    env_file:
+      - ./.env
 
   phantombot:
     container_name: phantombot-nightly
@@ -44,7 +46,7 @@ services:
     container_name: "phantombot"
     hostname: "phantombot"
     ports:
-      - "25000:25000"
+      - "25000"
     networks:
       - outside
     labels:
@@ -63,7 +65,7 @@ services:
       - "/opt/PhantomBot/scripts/discord/custom"
       - "/opt/PhantomBot/scripts/lang/custom"
     env_file:
-      - ./.phantombot_env
+      - ./.env
 
 networks:
   outside:
