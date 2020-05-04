@@ -23,6 +23,7 @@ Save to ~/.phantombot_env, then create symbolic link:
 2. `chmod 0600 ~/.phantombot_env`
 3. `ln -s ~/.phantombot_env /code/traefik_phantombot/.env`
 
+#### Bring up stack w/ docker-compose
 ```
 docker-compose up -d
 ```
